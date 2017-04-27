@@ -6,6 +6,7 @@
 
 ### Overview
 
+
 This RESTful API allows users to create an account, input basic measurements, and receive recommendations for bikes that will fit their personal morphology.
 Users can save bikes to a collection to reference at any time.
 
@@ -14,19 +15,22 @@ Users can save bikes to a collection to reference at any time.
 # Architecture
 This app is built entirely with JS and uses a MongoDB database. Although a front end has yet to be built, this is a MEAN stack app in the making and will follow MVC principles.
 
+## Entity Relationship Diagram
+![fit-O-matic ERD](img/entityRelationshipDiagramFitOMatic.png)
+
 ### Summary
 The fit-O-matic API allows users to create profile, input some measurements, and receive a list of bicycles which will best fit them.
 
 ### About The Team
 
-Gary Lundren:
+Gary Lundgren:
   As a software developer my focus has been on building high quality applications. I have specialized in utilizing the MEAN stack for development and am always on a journey to learn and use new technologies.
 
 Zachary Crumbo:
    I'm a full stack developer with a background in design,  photography, and ecommerce. I love to learn, to debug, and to find connections.
 
 Regan O'Neill:
-  After gaining development experience at a digital marketing agency, I wanted to learn more about the backend and front-end frameworks. 
+  After gaining development experience at a digital marketing agency, I wanted to learn more about the backend and front-end frameworks.
 
 ## Schemas
 

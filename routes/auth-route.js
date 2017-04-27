@@ -22,22 +22,43 @@ authRouter.post('/api/signup', jsonParser, function(req, res, next){
   let password = req.body.password;
   delete req.body.password;
   let user = new User(req.body);
-
   user.generatePasswordHash(password)
   .then( user => user.save())
   .then( user => {
+    let profile = new Profile();
+    profile.userID = user._id;
+    profile.save();
+  })
+  .then( () => {
     return user.generateToken();
   })
-  .then( token => res.send(token))
+  .then( token => {
+    let authObj = {};
+    authObj.token = token;
+    authObj.userId = user._id;
+    authObj.email = user.email;
+    res.send(authObj);
+  })
   .catch(next);
 });
 
 authRouter.get('/api/signin', basicAuth, function(req, res, next){
   debug('GET: /api/signin');
+  let authObj = {};
   User.findOne({username: req.auth.username})
   .then( user => user.comparePasswordHash(req.auth.password))
-  .then( user => user.generateToken())
-  .then( token => res.send(token))
+  .then( user => {
+    authObj.userId = user._id;
+    authObj.username = user.username;
+    authObj.email = user.email;
+    return user.generateToken();
+  })
+  .then( token => {
+    authObj.token = token;
+    debug(authObj, 'AUTH OBJ!!!!');
+    res.send(authObj);
+  })
+  // .then( token => res.send(token))
   .catch( () => next(createError(401,'invalid login')));
 });
 
@@ -50,7 +71,7 @@ authRouter.put('/api/newUserName', basicAuth, jsonParser, function(req, res, nex
   .then( user => User.findByIdAndUpdate(user._id, req.body, {new: true} ))
   .then( user => {
     if(!user){
-      return next(createError(404, 'user not found'))
+      return next(createError(404, 'user not found'));
     }
     res.json(user);
   })
